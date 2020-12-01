@@ -7,7 +7,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "clientes")
@@ -28,7 +30,14 @@ public class Cliente implements Serializable{
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private Date createAt;
+    private String foto;
+    @OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL) //carga perezoza
+    private List<Factura> facturas;
 
+
+    public Cliente() {
+        facturas = new ArrayList<Factura>();
+    }
 
     public long getId() {
         return id;
@@ -62,11 +71,31 @@ public class Cliente implements Serializable{
         this.email = email;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     public Date getCreateAt() {
         return createAt;
     }
 
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
+    }
+
+    public List<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    public void addactura(Factura factura){
+        facturas.add(factura);
     }
 }
